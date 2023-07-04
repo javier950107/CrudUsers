@@ -91,6 +91,46 @@ namespace CRUDUsers.Controllers
             return View(user);
         }
 
+        // GET
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if(id == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await  _context.Users.FirstOrDefaultAsync(m => m.id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {
+            if(_context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var userFound = await _context.Users.FindAsync(id);
+
+            if(userFound != null)
+            {
+                _context.Users.Remove(userFound);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool UserExists(int id)
         {
             return (_context.Users?.Any(e => e.id == id)).GetValueOrDefault();

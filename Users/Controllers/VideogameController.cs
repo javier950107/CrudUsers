@@ -1,0 +1,29 @@
+﻿using CRUDUsers.Models;
+using CRUDUsers.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CRUDUsers.Controllers
+{
+    public class VideogameController : Controller
+    {
+        private readonly MyDbContext _context;
+
+        public VideogameController(MyDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var viewModel = new VideogameViewModel
+            {
+                Videogames = await _context.Videogames.ToListAsync(),
+                NewVideogame = new Videogame()
+            };
+            return _context.Videogames != null ?
+                View(viewModel) : 
+                Problem("There was a problem with the videogames");
+        }
+    }
+}

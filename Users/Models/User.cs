@@ -14,7 +14,7 @@ namespace CRUDUsers.Models
         [Required, StringLength(255), Display(Name = "Name")]
         public string name { get; set; }
 
-        [StringLength(255), Display(Name = "Password")]
+        [Required, StringLength(255), Display(Name = "Password")]
         public string password { get; set; }
     }
 }
