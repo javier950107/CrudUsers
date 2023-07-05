@@ -19,12 +19,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="NewVideogame.description"></label>
-                <input type="text" asp-for="NewVideogame.description" class="form-control"/>
+                <textarea asp-for="NewVideogame.description" class="form-control"></textarea>
                 <span asp-validation-for="NewVideogame.description" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="Create"></input>
+                <input class="btn btn-primary" type="submit" value="Create" />
             </div>
         </form>
     </div>
@@ -36,6 +36,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +52,19 @@
                 <td>
                     @Html.DisplayFor(item => data.description)
                 </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@data.id" >
+                        <button class="btn btn-danger" type="submit" >X</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
